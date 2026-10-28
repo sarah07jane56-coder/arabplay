@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ArabPlay — Mini Games Bahasa Arab</title>
+<style>
+:root{--green:#087f5b;--deep:#07563f;--mint:#dff5e9;--cream:#fff9ec;--yellow:#ffd166;--ink:#18352b;--muted:#61766c;--white:#fff;--line:#dce9df;--red:#c84b4b}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font-family:ui-rounded,"Trebuchet MS",system-ui,-apple-system,sans-serif}
+button,select{font:inherit}button{cursor:pointer}.topbar{background:var(--deep);color:white;padding:14px 5vw;display:flex;justify-content:space-between;align-items:center;gap:12px;position:sticky;top:0;z-index:5;box-shadow:0 5px 18px #1232}
+.brand{font-size:1.35rem;font-weight:900;letter-spacing:-.5px}.brand span{color:var(--yellow)}.topright{display:flex;align-items:center;gap:10px}.pill{border:1px solid #ffffff55;padding:8px 12px;border-radius:999px;font-size:.88rem}.reset{background:transparent;color:white;border:1px solid #ffffff66;border-radius:10px;padding:8px 10px}
+main{max-width:1120px;margin:auto;padding:28px 20px 56px}.hero{display:grid;grid-template-columns:1.4fr .8fr;gap:24px;align-items:center;background:linear-gradient(135deg,#e4f6e9,#fff4d4);border:1px solid #d3ead9;border-radius:28px;padding:clamp(22px,5vw,48px);overflow:hidden}
+.eyebrow{font-weight:800;color:var(--green);text-transform:uppercase;letter-spacing:1.5px;font-size:.75rem}.hero h1{font-size:clamp(2rem,5vw,3.8rem);line-height:1.05;margin:12px 0}.hero p{font-size:1.04rem;color:#4e675b;max-width:560px;line-height:1.65}.cta{background:var(--green);color:white;border:0;padding:13px 19px;border-radius:13px;font-weight:800;box-shadow:0 5px 0 #05553e}.cta:hover{filter:brightness(1.07);transform:translateY(-1px)}.arab-art{display:flex;align-items:center;justify-content:center;min-height:200px;position:relative}.arab-circle{width:min(260px,70vw);aspect-ratio:1;border-radius:48% 52% 56% 44%;background:var(--green);display:grid;place-items:center;color:var(--yellow);font-size:clamp(4rem,10vw,7rem);box-shadow:16px 18px 0 #b8e5c9;transform:rotate(-5deg)}.float{position:absolute;background:white;border-radius:15px;padding:10px 14px;font-weight:800;box-shadow:0 8px 24px #1232}.f1{top:12%;left:0}.f2{bottom:9%;right:0}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:34px 0 16px}.section-head h2{margin:0;font-size:1.5rem}.section-head p{margin:5px 0 0;color:var(--muted)}.level-grid,.game-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.level-card,.game-card{background:white;border:1px solid var(--line);border-radius:18px;padding:18px;text-align:left;transition:.18s;box-shadow:0 4px 0 #e8eee7}.level-card:hover,.game-card:hover{transform:translateY(-3px);border-color:#85c9a4}.level-card.active{border:2px solid var(--green);background:#ecf9f0;box-shadow:0 4px 0 #a6d9b9}.level-icon{font-size:1.8rem}.level-card h3,.game-card h3{margin:10px 0 5px;font-size:1rem}.level-card p,.game-card p{font-size:.87rem;color:var(--muted);line-height:1.45;margin:0}.game-card{cursor:pointer;min-height:155px}.game-card .game-icon{font-size:1.8rem}.game-card.active{border-color:var(--green);background:#f1fbf4}
+.progress-wrap{background:white;border:1px solid var(--line);border-radius:20px;padding:18px 20px;margin-top:24px}.progress-top{display:flex;justify-content:space-between;gap:10px;align-items:center;font-weight:800}.track{height:10px;background:#edf2ed;border-radius:99px;overflow:hidden;margin-top:12px}.fill{height:100%;width:0;background:linear-gradient(90deg,var(--green),#73c99b);border-radius:99px;transition:width .3s}.game-area{margin-top:25px;background:white;border:1px solid var(--line);border-radius:24px;padding:clamp(18px,4vw,30px);min-height:300px}.game-area h2{margin:0 0 5px}.sub{color:var(--muted);margin:0 0 20px}.hidden{display:none!important}.game-meta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:18px;color:var(--muted);font-size:.9rem}.prompt{background:#f0f9f2;border:1px solid #d8efdf;border-radius:18px;padding:22px;text-align:center;margin-bottom:18px}.arabic{font-family:"Noto Naskh Arabic","Amiri","Traditional Arabic",serif;font-size:clamp(2rem,7vw,3.1rem);direction:rtl;line-height:1.8;color:var(--deep);margin:2px 0}.translation{font-weight:800;font-size:1.15rem}.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.choice{background:white;border:1.5px solid var(--line);padding:13px 12px;border-radius:13px;text-align:center;font-weight:750;color:var(--ink)}.choice:hover{border-color:var(--green);background:#f4fbf5}.choice.correct{background:#d9f6e2;border-color:#37a66a}.choice.wrong{background:#ffebeb;border-color:#e18a8a}.feedback{margin-top:14px;padding:12px 14px;border-radius:12px;font-weight:700}.feedback.good{background:#e3f8e9;color:#14643e}.feedback.bad{background:#fff0e8;color:#8d3d1e}.actions{display:flex;gap:10px;justify-content:flex-end;margin-top:17px;flex-wrap:wrap}.secondary{border:1px solid var(--line);background:white;color:var(--ink);padding:11px 15px;border-radius:12px;font-weight:800}.primary-small{border:0;background:var(--green);color:white;padding:11px 16px;border-radius:12px;font-weight:800}.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.match-col{display:grid;gap:10px}.match-option{min-height:56px;background:white;border:1.5px solid var(--line);border-radius:13px;padding:10px;font-weight:750}.match-option.selected{border-color:var(--green);background:#e7f7ec}.match-option.matched{background:#d8f4e2;border-color:#67b88a;opacity:.8}.word-bank{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:14px 0}.word-chip{background:#fff0b9;border:1px solid #f2d56c;border-radius:12px;padding:10px 13px;font-family:"Noto Naskh Arabic","Amiri",serif;font-size:1.3rem}.answer-line{min-height:62px;border:2px dashed #b7d8c1;border-radius:14px;padding:10px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;align-items:center}.answer-chip{background:var(--mint);border-radius:10px;padding:7px 10px;font-family:"Noto Naskh Arabic","Amiri",serif;font-size:1.25rem;cursor:pointer}.quiz-count{font-size:.88rem;color:var(--muted)}
+
+.audio-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;background:#fff;border:1.5px solid #b7dfc5;color:#087f5b;border-radius:12px;padding:9px 12px;font-weight:800;margin-top:10px}
+.audio-btn:hover{background:#e8f7ed}.audio-btn:disabled{opacity:.55;cursor:wait}
+.audio-note{font-size:.82rem;color:var(--muted);margin-top:7px}.arabic-audio-row{display:flex;flex-direction:column;align-items:center}
+.level-achievements{display:grid;grid-template-columns:.9fr 1.5fr;gap:16px;margin-top:16px}
+.level-panel,.achievement-panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px}
+.level-big{font-size:1.35rem;font-weight:900;color:var(--green);margin:8px 0}
+.level-meter{height:8px;background:#edf2ed;border-radius:99px;overflow:hidden;margin:10px 0}
+.level-meter-fill{height:100%;width:0;background:linear-gradient(90deg,var(--green),#73c99b);transition:width .3s}
+.achievement-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:12px}
+.achievement{border:1px solid var(--line);border-radius:13px;padding:10px;display:flex;gap:9px;align-items:center;background:#fbfdfb}
+.achievement.unlocked{background:#fff7d8;border-color:#f0d77d}
+.achievement-icon{font-size:1.4rem}.achievement-title{font-weight:850;font-size:.88rem}.achievement-desc{font-size:.75rem;color:var(--muted);margin-top:3px}
+.stats-mini{display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:.86rem}
+.report-panel{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:20px}
+.report-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:15px 0}
+.report-stat{background:#f1f8f2;border-radius:14px;padding:13px;text-align:center}
+.report-stat strong{display:block;font-size:1.5rem;color:var(--green)}
+.report-stat span{font-size:.8rem;color:var(--muted)}
+.review-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.review-chip{border:1px solid #f0d77d;background:#fff7d8;border-radius:12px;padding:9px 12px}
+.learning-focus{margin:14px 0;padding:12px 15px;background:#eef8f0;border-left:4px solid var(--green);border-radius:10px;font-size:.9rem}
+.reading-panel{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:20px}
+.reading-text{font-family:Georgia,"Times New Roman",serif;font-size:1.35rem;line-height:2.1;direction:rtl;text-align:right;background:#fffaf0;border:1px solid #efe3c9;border-radius:15px;padding:16px;margin:14px 0}
+.reading-question{border-top:1px solid var(--line);padding:14px 0}
+.reading-options{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.reading-option{background:#f6faf6;border:1px solid var(--line);border-radius:12px;padding:10px 12px;text-align:left}
+.reading-option.correct{border-color:#087f5b;background:#e5f5e8}.reading-option.wrong{border-color:#c84b4b;background:#fff0ee}
+.reading-feedback{font-size:.88rem;margin-top:8px}
+
+@media(max-width:600px){.report-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.level-achievements{grid-template-columns:1fr}.achievement-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:420px){.achievement-grid{grid-template-columns:1fr}}
+footer{text-align:center;color:var(--muted);font-size:.85rem;padding:24px}
+@media(max-width:760px){.hero{grid-template-columns:1fr}.arab-art{min-height:170px}.arab-circle{width:170px;font-size:4.5rem}.level-grid,.game-grid{grid-template-columns:repeat(2,1fr)}.section-head{align-items:start;flex-direction:column}.topbar{padding:12px 4vw}.topright{gap:6px}.pill{font-size:.78rem;padding:7px 9px}.brand{font-size:1.1rem}}
+@media(max-width:420px){main{padding:18px 12px 40px}.choices{grid-template-columns:1fr}.level-card,.game-card{padding:14px}.match-grid{gap:7px}.match-option{font-size:.9rem;padding:8px 5px}.reset{font-size:.78rem}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">Arab<span>Play</span> <small style="font-weight:500;font-size:.7rem">لغة عربية, cara seru!</small></div>
+  <div class="topright"><div class="pill">⭐ <b id="points">0</b> poin</div><div class="pill">🔥 <b id="streak">0</b> benar</div><button class="reset" id="resetBtn" title="Mulai ulang progres">Reset</button></div>
+</header>
+<main>
+  <section class="hero">
+    <div><div class="eyebrow">Belajar sambil bermain</div><h1>Bahasa Arab jadi<br><span style="color:var(--green)">lebih menyenangkan.</span></h1><p>Latih kosakata, pahami arti, susun kalimat, dan uji kemampuanmu melalui mini games yang singkat dan interaktif.</p><button class="cta" id="startBtn">Mulai bermain ↓</button></div>
+    <div class="arab-art"><div class="arab-circle" aria-label="Huruf Arab">عَرَبِيَّة</div><div class="float f1">مرحَبًا!</div><div class="float f2">Ayo belajar!</div></div>
+  </section>
+  <section id="levels">
+    <div class="section-head"><div><h2>1. Pilih jenjangmu</h2><p>Materi menyesuaikan tingkat belajar dan tema.</p></div><span class="pill" style="color:var(--green);border-color:#cde5d3;background:white" id="levelLabel">SD / MI</span></div>
+    <div class="level-grid">
+      <button class="level-card active" data-level="sd"><span class="level-icon">🌱</span><h3>SD / MI</h3><p>Kosakata dasar, benda, angka, dan keluarga.</p></button>
+      <button class="level-card" data-level="smp"><span class="level-icon">📗</span><h3>SMP / MTs</h3><p>Kata kerja, sekolah, kegiatan, dan kalimat sederhana.</p></button>
+      <button class="level-card" data-level="sma"><span class="level-icon">🎓</span><h3>SMA / MA</h3><p>Ungkapan, struktur kalimat, dan pemahaman konteks.</p></button>
+      <button class="level-card" data-level="umum"><span class="level-icon">🌍</span><h3>Mahasiswa & umum</h3><p>Kosakata lebih luas dan tata bahasa praktis.</p></button>
+    </div>
+  </section>
+  <section>
+    <div class="section-head"><div><h2>2. Pilih mini game</h2><p>Setiap jawaban benar menambah poin dan progres.</p></div></div>
+    <div class="game-grid">
+      <button class="game-card active" data-game="match"><span class="game-icon">🧩</span><h3>Match the Words</h3><p>Pasangkan kata Arab dengan artinya.</p></button>
+      <button class="game-card" data-game="meaning"><span class="game-icon">💡</span><h3>Tebak Arti</h3><p>Pilih terjemahan yang paling tepat.</p></button>
+      <button class="game-card" data-game="order"><span class="game-icon">🔤</span><h3>Susun Kata</h3><p>Susun kata menjadi kalimat benar.</p></button>
+      <button class="game-card" data-game="quiz"><span class="game-icon">⚡</span><h3>Kuis Kilat</h3><p>Jawab pertanyaan singkat secara beruntun.</p></button>
+    </div>
+  </section>
+  <section class="progress-wrap">
+    <div class="progress-top"><span>Progres belajar</span><span id="progressText">0 dari 10 soal</span></div><div class="track"><div class="fill" id="progressFill"></div></div>
+  </section>
+  <section class="level-achievements" aria-label="Level dan pencapaian">
+    <div class="level-panel">
+      <div class="eyebrow">Level belajar</div>
+      <div class="level-big" id="levelName">Pemula</div>
+      <div id="levelDescription" class="sub" style="margin-bottom:8px">Mulai petualangan Bahasa Arabmu.</div>
+      <div class="level-meter"><div class="level-meter-fill" id="levelMeterFill"></div></div>
+      <div class="stats-mini"><span id="levelPoints">0 poin</span><span id="nextLevelText">50 poin ke level berikutnya</span></div>
+    </div>
+    <div class="achievement-panel">
+      <div class="eyebrow">Koleksi pencapaian</div>
+      <h3 style="margin:7px 0 0">Terus kumpulkan lencana</h3>
+      <div class="sub" style="margin:4px 0 0">Lencana terbuka otomatis saat target tercapai.</div>
+      <div class="achievement-grid" id="achievementGrid"></div>
+    </div>
+  </section>
+  <section class="game-area" id="gameArea" aria-live="polite">
+    <div class="game-meta"><span id="gameName">🧩 Match the Words</span><span id="levelMeta">Jenjang: SD / MI</span></div>
+    <h2 id="gameTitle">Cocokkan pasangan kata</h2><p class="sub" id="gameSub">Pilih kata Arab, lalu pilih arti yang sesuai.</p>
+    <div class="learning-focus" id="learningFocus"></div><div id="gameContent"></div>
+  </section>
+  <section class="reading-panel hidden" id="readingPanel" aria-live="polite">
+    <div class="eyebrow">Bacaan kontekstual</div>
+    <h2 style="margin:7px 0">Latihan memahami teks</h2>
+    <p class="sub" id="readingIntro">Baca teks, lalu jawab pertanyaan berdasarkan informasi di dalamnya.</p>
+    <div class="reading-text" id="readingText" lang="ar" dir="rtl"></div>
+    <div id="readingQuestions"></div>
+    <div class="actions"><button class="primary-small" id="readingNextBtn">Bacaan berikutnya</button></div>
+  </section>
+  <section class="report-panel hidden" id="reportPanel" aria-live="polite">
+    <div class="eyebrow">Ringkasan sesi</div>
+    <h2 style="margin:7px 0">Laporan hasil belajar</h2>
+    <p class="sub" id="reportSubtitle">Ringkasan hasil permainanmu.</p>
+    <div class="report-stats">
+      <div class="report-stat"><strong id="reportCorrect">0</strong><span>Jawaban benar</span></div>
+      <div class="report-stat"><strong id="reportWrong">0</strong><span>Jawaban salah</span></div>
+      <div class="report-stat"><strong id="reportAccuracy">0%</strong><span>Akurasi</span></div>
+      <div class="report-stat"><strong id="reportPoints">0</strong><span>Poin sesi</span></div>
+    </div>
+    <h3 style="margin-bottom:5px">Kosakata yang perlu diulang</h3>
+    <p class="sub" id="reviewDescription">Kata yang dijawab keliru akan muncul di sini.</p>
+    <div class="review-list" id="reviewList"></div>
+    <div class="actions"><button class="primary-small" id="playAgainBtn">Main lagi</button></div>
+  </section>
+</main>
+<footer>ArabPlay · Belajar sedikit demi sedikit, setiap hari. Audio memakai suara Arab yang tersedia di perangkat/browser.</footer>
+<script>
+const BANK={
+sd:[
+ {ar:"كِتَابٌ",id:"buku",en:"book",kind:"noun"},
+ {ar:"قَلَمٌ",id:"pena",en:"pen",kind:"noun"},
+ {ar:"مَدْرَسَةٌ",id:"sekolah",en:"school",kind:"noun"},
+ {ar:"مَاءٌ",id:"air",en:"water",kind:"noun"},
+ {ar:"أُمٌّ",id:"ibu",en:"mother",kind:"noun"},
+ {ar:"أَبٌ",id:"ayah",en:"father",kind:"noun"},
+ {ar:"بَيْتٌ",id:"rumah",en:"house",kind:"noun"},
+ {ar:"وَاحِدٌ",id:"satu",en:"one",kind:"number"},
+ {ar:"شَمْسٌ",id:"matahari",en:"sun",kind:"noun"},
+ {ar:"تُفَّاحَةٌ",id:"apel",en:"apple",kind:"noun"}
+],
+smp:[
+ {ar:"يَقْرَأُ",id:"membaca",en:"to read",kind:"verb"},
+ {ar:"يَكْتُبُ",id:"menulis",en:"to write",kind:"verb"},
+ {ar:"يَذْهَبُ",id:"pergi",en:"to go",kind:"verb"},
+ {ar:"يَفْتَحُ",id:"membuka",en:"to open",kind:"verb"},
+ {ar:"يَجْلِسُ",id:"duduk",en:"to sit",kind:"verb"},
+ {ar:"طَالِبٌ",id:"siswa",en:"student",kind:"noun"},
+ {ar:"مَكْتَبَةٌ",id:"perpustakaan",en:"library",kind:"noun"},
+ {ar:"صَدِيقٌ",id:"teman",en:"friend",kind:"noun"},
+ {ar:"فِي الْفَصْلِ",id:"di kelas",en:"in the classroom",kind:"phrase"},
+ {ar:"أَنَا أَتَعَلَّمُ",id:"saya sedang belajar",en:"I am learning",kind:"phrase"}
+],
+sma:[
+ {ar:"أُحِبُّ اللُّغَةَ الْعَرَبِيَّةَ",id:"Saya menyukai bahasa Arab",en:"I love Arabic",kind:"sentence"},
+ {ar:"كَيْفَ حَالُكَ؟",id:"Apa kabarmu? (laki-laki)",en:"How are you?",kind:"phrase"},
+ {ar:"لَا بَأْسَ",id:"Tidak apa-apa",en:"No problem",kind:"phrase"},
+ {ar:"يَجِبُ أَنْ نَجْتَهِدَ",id:"Kita harus bersungguh-sungguh",en:"We must work hard",kind:"sentence"},
+ {ar:"الْعِلْمُ نُورٌ",id:"Ilmu adalah cahaya",en:"Knowledge is light",kind:"sentence"},
+ {ar:"أَيْنَ تَسْكُنُ؟",id:"Di mana kamu tinggal? (laki-laki)",en:"Where do you live?",kind:"phrase"},
+ {ar:"لِأَنَّ",id:"karena",en:"because",kind:"particle"},
+ {ar:"لَكِنَّ",id:"akan tetapi",en:"however",kind:"particle"},
+ {ar:"يَنْبَغِي لَنَا أَنْ نَقْرَأَ",id:"Sebaiknya kita membaca",en:"We should read",kind:"sentence"},
+ {ar:"مَصْدَرٌ",id:"kata benda dasar / masdar",en:"verbal noun",kind:"grammar"}
+],
+umum:[
+ {ar:"مِنْ فَضْلِكَ",id:"tolong / silakan (laki-laki)",en:"please",kind:"phrase"},
+ {ar:"هَلْ يُمْكِنُكَ مُسَاعَدَتِي؟",id:"Bisakah kamu membantuku? (laki-laki)",en:"Can you help me?",kind:"phrase"},
+ {ar:"مَوْعِدٌ",id:"janji / jadwal pertemuan",en:"appointment",kind:"noun"},
+ {ar:"تَجْرِبَةٌ",id:"pengalaman / eksperimen",en:"experience / experiment",kind:"noun"},
+ {ar:"يَتَضَمَّنُ",id:"mencakup",en:"to include",kind:"verb"},
+ {ar:"مَعَ ذَلِكَ",id:"meskipun demikian",en:"nevertheless",kind:"phrase"},
+ {ar:"بِشَكْلٍ عَامٍّ",id:"secara umum",en:"in general",kind:"phrase"},
+ {ar:"مُقَارَنَةٌ",id:"perbandingan",en:"comparison",kind:"noun"},
+ {ar:"مَا الْهَدَفُ مِنْ هَذَا؟",id:"Apa tujuan dari hal ini?",en:"What is the purpose of this?",kind:"phrase"},
+ {ar:"يَعْتَمِدُ عَلَى",id:"bergantung pada",en:"to depend on",kind:"phrase"}
+]};
+
+
+const EXTRA_BANK={
+ sd:[
+  ["بَابٌ","pintu","door"],["كُرْسِيٌّ","kursi","chair"],["طَاوِلَةٌ","meja","table"],["حَقِيبَةٌ","tas","bag"],
+  ["مِمْحَاةٌ","penghapus","eraser"],["مِسْطَرَةٌ","penggaris","ruler"],["دَفْتَرٌ","buku tulis","notebook"],["فَصْلٌ","kelas","classroom"],
+  ["مُعَلِّمٌ","guru laki-laki","teacher"],["مُعَلِّمَةٌ","guru perempuan","teacher"],["وَلَدٌ","anak laki-laki","boy"],["بِنْتٌ","anak perempuan","girl"],
+  ["أَخٌ","saudara laki-laki","brother"],["أُخْتٌ","saudara perempuan","sister"],["جَدٌّ","kakek","grandfather"],["جَدَّةٌ","nenek","grandmother"],
+  ["يَدٌ","tangan","hand"],["عَيْنٌ","mata","eye"],["رَأْسٌ","kepala","head"],["فَمٌ","mulut","mouth"],
+  ["أَحْمَرُ","merah","red"],["أَزْرَقُ","biru","blue"],["أَخْضَرُ","hijau","green"],["أَصْفَرُ","kuning","yellow"],
+  ["ثَلَاثَةٌ","tiga","three"],["أَرْبَعَةٌ","empat","four"],["خَمْسَةٌ","lima","five"],["سِتَّةٌ","enam","six"],
+  ["يَوْمٌ","hari","day"],["لَيْلٌ","malam","night"],["قَمَرٌ","bulan","moon"],["نَجْمٌ","bintang","star"],
+  ["أَسَدٌ","singa","lion"],["قِطَّةٌ","kucing","cat"],["كَلْبٌ","anjing","dog"],["سَمَكَةٌ","ikan","fish"],
+  ["حَلِيبٌ","susu","milk"],["خُبْزٌ","roti","bread"],["مَوْزٌ","pisang","banana"],["بُرْتُقَالٌ","jeruk","orange"]
+ ],
+ smp:[
+  ["يَشْرَبُ","minum","to drink"],["يَأْكُلُ","makan","to eat"],["يَلْعَبُ","bermain","to play"],["يَسْمَعُ","mendengar","to hear"],
+  ["يَتَكَلَّمُ","berbicara","to speak"],["يَفْهَمُ","memahami","to understand"],["يَحْفَظُ","menghafal","to memorize"],["يَسْأَلُ","bertanya","to ask"],
+  ["يُجِيبُ","menjawab","to answer"],["يَسْتَيْقِظُ","bangun tidur","to wake up"],["يَنَامُ","tidur","to sleep"],["يَعْمَلُ","bekerja","to work"],
+  ["مُسْتَشْفًى","rumah sakit","hospital"],["سُوقٌ","pasar","market"],["مَسْجِدٌ","masjid","mosque"],["مَطْعَمٌ","restoran","restaurant"],
+  ["حَدِيقَةٌ","taman","garden"],["مَدِينَةٌ","kota","city"],["قَرْيَةٌ","desa","village"],["شَارِعٌ","jalan","street"],
+  ["صَبَاحٌ","pagi","morning"],["مَسَاءٌ","sore/malam","evening"],["الْيَوْمَ","hari ini","today"],["غَدًا","besok","tomorrow"],
+  ["أَمْسِ","kemarin","yesterday"],["سَرِيعٌ","cepat","fast"],["بَطِيءٌ","lambat","slow"],["جَمِيلٌ","indah","beautiful"],
+  ["كَبِيرٌ","besar","big"],["صَغِيرٌ","kecil","small"],["قَرِيبٌ","dekat","near"],["بَعِيدٌ","jauh","far"],
+  ["أَنَا أَفْهَمُ","saya memahami","I understand"],["مَاذَا تُرِيدُ؟","Apa yang kamu inginkan?","What do you want?"],
+  ["كَمِ السَّاعَةُ؟","Pukul berapa?","What time is it?"],["أَيْنَ الْمَسْجِدُ؟","Di mana masjid?","Where is the mosque?"],
+  ["هَذَا صَدِيقِي","Ini teman saya","This is my friend"],["الْجَوُّ جَمِيلٌ","Cuacanya bagus","The weather is nice"],
+  ["أُحِبُّ الرِّيَاضَةَ","Saya menyukai olahraga","I like sports"],["أَنَا مُتْعَبٌ","Saya lelah (laki-laki)","I am tired"]
+ ],
+ sma:[
+  ["مُجْتَمَعٌ","masyarakat","society"],["ثَقَافَةٌ","budaya","culture"],["بِيئَةٌ","lingkungan","environment"],["مَسْؤُولِيَّةٌ","tanggung jawab","responsibility"],
+  ["تَجْرِبَةٌ عِلْمِيَّةٌ","eksperimen ilmiah","scientific experiment"],["نَتِيجَةٌ","hasil","result"],["سَبَبٌ","sebab","reason"],["هَدَفٌ","tujuan","goal"],
+  ["مُشْكِلَةٌ","masalah","problem"],["حَلٌّ","solusi","solution"],["مَعْلُومَاتٌ","informasi","information"],["مَهَارَةٌ","keterampilan","skill"],
+  ["تَطَوُّرٌ","perkembangan","development"],["تَغْيِيرٌ","perubahan","change"],["مُقْتَرَحٌ","usulan","proposal"],["مُنَاقَشَةٌ","diskusi","discussion"],
+  ["يُقَارِنُ","membandingkan","to compare"],["يَسْتَنْتِجُ","menyimpulkan","to conclude"],["يَشْرَحُ","menjelaskan","to explain"],["يُحَلِّلُ","menganalisis","to analyze"],
+  ["يُؤَثِّرُ فِي","memengaruhi","to influence"],["يَتَطَلَّبُ","membutuhkan","to require"],["يُشِيرُ إِلَى","menunjukkan","to indicate"],["يُسَاهِمُ فِي","berkontribusi pada","to contribute to"],
+  ["عَلَى الرَّغْمِ مِنْ","meskipun","although"],["بِسَبَبِ","disebabkan oleh","because of"],["مِنْ نَاحِيَةٍ أُخْرَى","di sisi lain","on the other hand"],["بِنَاءً عَلَى","berdasarkan","based on"],
+  ["فِي الْمُسْتَقْبَلِ","pada masa depan","in the future"],["فِي الْوَاقِعِ","pada kenyataannya","in fact"],["بِهَذِهِ الطَّرِيقَةِ","dengan cara ini","in this way"],["بِشَكْلٍ مُسْتَمِرٍّ","secara berkelanjutan","continuously"],
+  ["يَنْبَغِي لِلطُّلَّابِ أَنْ يَقْرَؤُوا","Siswa sebaiknya membaca","Students should read"],["يَحْتَاجُ الْبَحْثُ إِلَى أَدِلَّةٍ","Penelitian membutuhkan bukti","Research needs evidence"],
+  ["تَتَغَيَّرُ اللُّغَةُ مَعَ الزَّمَنِ","Bahasa berubah seiring waktu","Language changes over time"],["يُسَاعِدُ التَّعَاوُنُ عَلَى التَّعَلُّمِ","Kerja sama membantu pembelajaran","Cooperation helps learning"],
+  ["الْقِرَاءَةُ تُنَمِّي التَّفْكِيرَ","Membaca mengembangkan pemikiran","Reading develops thinking"],["يَجِبُ احْتِرَامُ اخْتِلَافِ الْآرَاءِ","Perbedaan pendapat harus dihormati","Differences of opinion should be respected"],
+  ["الْمَعْرِفَةُ تَحْتَاجُ إِلَى تَحَقُّقٍ","Informasi membutuhkan verifikasi","Knowledge needs verification"],["يُسَاعِدُ التَّخْطِيطُ عَلَى تَحْقِيقِ الْأَهْدَافِ","Perencanaan membantu mencapai tujuan","Planning helps achieve goals"]
+ ],
+ umum:[
+  ["مُبَادَرَةٌ","inisiatif","initiative"],["مَوْرِدٌ","sumber daya","resource"],["إِمْكَانِيَّةٌ","kemungkinan/kapasitas","possibility/capacity"],["أَوْلَوِيَّةٌ","prioritas","priority"],
+  ["مُنَاسَبٌ","sesuai","appropriate"],["مُتَوَفِّرٌ","tersedia","available"],["مُسْتَقِلٌّ","mandiri","independent"],["مُشْتَرَكٌ","bersama","shared"],
+  ["مُسْتَدَامٌ","berkelanjutan","sustainable"],["فَعَّالٌ","efektif","effective"],["دَقِيقٌ","akurat","accurate"],["مَوْثُوقٌ","tepercaya","reliable"],
+  ["تَحْدِيدُ الْأَوْلَوِيَّاتِ","penentuan prioritas","prioritization"],["اتِّخَاذُ الْقَرَارِ","pengambilan keputusan","decision-making"],["إِدَارَةُ الْوَقْتِ","manajemen waktu","time management"],["حَلُّ الْمُشْكِلَاتِ","pemecahan masalah","problem-solving"],
+  ["وِجْهَةُ نَظَرٍ","sudut pandang","point of view"],["مَصْدَرٌ أَسَاسِيٌّ","sumber utama","primary source"],["بَيَانَاتٌ دَقِيقَةٌ","data akurat","accurate data"],["خُطَّةٌ عَمَلِيَّةٌ","rencana praktis","practical plan"],
+  ["يُرَاجِعُ","meninjau","to review"],["يُطَوِّرُ","mengembangkan","to develop"],["يُحَدِّدُ","menentukan","to determine"],["يُوَضِّحُ","memperjelas","to clarify"],
+  ["يَتَحَقَّقُ مِنْ","memverifikasi","to verify"],["يُقَيِّمُ","mengevaluasi","to evaluate"],["يُقْتَرَحُ","diusulkan","is proposed"],["يَتَوَافَقُ مَعَ","selaras dengan","to align with"],
+  ["بِالْمُقَابِلِ","sebaliknya","in contrast"],["عَلَى سَبِيلِ الْمِثَالِ","sebagai contoh","for example"],["بِاخْتِصَارٍ","secara singkat","in brief"],["مِنَ الضَّرُورِيِّ أَنْ","penting untuk","it is necessary to"],
+  ["تَتَوَقَّفُ النَّتَائِجُ عَلَى الْبَيَانَاتِ","Hasil bergantung pada data","Results depend on data"],["يَنْبَغِي تَحْدِيدُ الْهَدَفِ أَوَّلًا","Tujuan sebaiknya ditentukan terlebih dahulu","The goal should be defined first"],
+  ["يَجِبُ التَّأَكُّدُ مِنْ صِحَّةِ الْمَعْلُومَاتِ","Kebenaran informasi harus dipastikan","Information accuracy must be verified"],["يُسَاعِدُ التَّقْيِيمُ عَلَى تَحْسِينِ الْأَدَاءِ","Evaluasi membantu meningkatkan kinerja","Evaluation helps improve performance"],
+  ["يُمْكِنُ تَطْبِيقُ هَذِهِ الْفِكْرَةِ عَمَلِيًّا","Gagasan ini dapat diterapkan secara praktis","This idea can be applied in practice"],["تَحْتَاجُ الْمَسْأَلَةُ إِلَى دِرَاسَةٍ أَعْمَقَ","Masalah ini membutuhkan kajian lebih mendalam","This issue needs deeper study"],
+  ["يَجِبُ مُرَاعَاةُ السِّيَاقِ","Konteks harus diperhatikan","Context must be considered"],["يُسَاعِدُ التَّوَاصُلُ الْوَاضِحُ عَلَى تَجَنُّبِ سُوءِ الْفَهْمِ","Komunikasi yang jelas membantu mencegah salah paham","Clear communication helps avoid misunderstandings"]
+ ]
+};
+for (const key of Object.keys(BANK)) {
+  BANK[key].push(...EXTRA_BANK[key].map(([ar,id,en])=>({ar,id,en,kind:"vocabulary"})));
+}
+
+const ORDER_BANK={
+ sd:[
+  {words:["هَذَا","كِتَابٌ"],meaning:"Ini sebuah buku."},
+  {words:["هَذِهِ","مَدْرَسَةٌ"],meaning:"Ini sebuah sekolah."},
+  {words:["أَنَا","طَالِبٌ"],meaning:"Saya seorang siswa (laki-laki)."},
+  {words:["هَذَا","قَلَمٌ"],meaning:"Ini sebuah pena."},
+  {words:["الْمَاءُ","بَارِدٌ"],meaning:"Air itu dingin."},
+  {words:["أُمِّي","فِي","الْبَيْتِ"],meaning:"Ibu saya berada di rumah."},
+  {words:["الشَّمْسُ","مُشْرِقَةٌ"],meaning:"Matahari bersinar."},
+  {words:["عِنْدِي","كِتَابٌ"],meaning:"Saya mempunyai sebuah buku."}
+ ],
+ smp:[
+  {words:["أَنَا","أَقْرَأُ","كِتَابًا"],meaning:"Saya membaca sebuah buku."},
+  {words:["يَذْهَبُ","أَحْمَدُ","إِلَى","الْمَدْرَسَةِ"],meaning:"Ahmad pergi ke sekolah."},
+  {words:["الطَّالِبُ","يَكْتُبُ","الدَّرْسَ"],meaning:"Siswa itu menulis pelajaran."},
+  {words:["أَنَا","أَذْهَبُ","إِلَى","الْمَكْتَبَةِ"],meaning:"Saya pergi ke perpustakaan."},
+  {words:["نَحْنُ","نَتَعَلَّمُ","اللُّغَةَ","الْعَرَبِيَّةَ"],meaning:"Kami belajar Bahasa Arab."},
+  {words:["الْمُعَلِّمُ","فِي","الْفَصْلِ"],meaning:"Guru itu berada di kelas."},
+  {words:["تَفْتَحُ","فَاطِمَةُ","الْبَابَ"],meaning:"Fatimah membuka pintu."},
+  {words:["أَكْتُبُ","الْوَاجِبَ","فِي","الدَّفْتَرِ"],meaning:"Saya menulis tugas di buku tulis."}
+ ],
+ sma:[
+  {words:["أَنَا","أُحِبُّ","اللُّغَةَ","الْعَرَبِيَّةَ"],meaning:"Saya menyukai Bahasa Arab."},
+  {words:["يَجِبُ","أَنْ","نَجْتَهِدَ"],meaning:"Kita harus bersungguh-sungguh."},
+  {words:["الْعِلْمُ","نُورٌ"],meaning:"Ilmu adalah cahaya."},
+  {words:["يَقْرَأُ","الطَّالِبُ","الْكِتَابَ","كُلَّ","يَوْمٍ"],meaning:"Siswa itu membaca buku setiap hari."},
+  {words:["أَذْهَبُ","إِلَى","الْجَامِعَةِ","صَبَاحًا"],meaning:"Saya pergi ke universitas pada pagi hari."},
+  {words:["لَا","يَنْبَغِي","أَنْ","نُهْمِلَ","الدِّرَاسَةَ"],meaning:"Kita tidak seharusnya mengabaikan pelajaran."},
+  {words:["يُسَاعِدُ","التَّعَاوُنُ","عَلَى","النَّجَاحِ"],meaning:"Kerja sama membantu menuju keberhasilan."},
+  {words:["الْقِرَاءَةُ","تُوَسِّعُ","الْمَعْرِفَةَ"],meaning:"Membaca memperluas pengetahuan."}
+ ],
+ umum:[
+  {words:["يَجِبُ","أَنْ","نَتَعَلَّمَ","كُلَّ","يَوْمٍ"],meaning:"Kita harus belajar setiap hari."},
+  {words:["هَلْ","يُمْكِنُكَ","مُسَاعَدَتِي؟"],meaning:"Bisakah kamu membantuku? (laki-laki)"},
+  {words:["أَرْغَبُ","فِي","مَعْرِفَةِ","التَّفَاصِيلِ"],meaning:"Saya ingin mengetahui detailnya."},
+  {words:["يَعْتَمِدُ","النَّجَاحُ","عَلَى","الِاجْتِهَادِ"],meaning:"Keberhasilan bergantung pada kesungguhan."},
+  {words:["مِنْ","فَضْلِكَ","أَعِدْ","الْجُمْلَةَ"],meaning:"Tolong ulangi kalimat itu."},
+  {words:["نَحْتَاجُ","إِلَى","مَزِيدٍ","مِنَ","الْمَعْلُومَاتِ"],meaning:"Kita membutuhkan lebih banyak informasi."},
+  {words:["مَعَ","ذَلِكَ","سَنُوَاصِلُ","الْعَمَلَ"],meaning:"Meskipun demikian, kita akan melanjutkan pekerjaan."},
+  {words:["يَهْدِفُ","هَذَا","الْبَحْثُ","إِلَى","فَهْمِ","الْمُشْكِلَةِ"],meaning:"Penelitian ini bertujuan memahami masalah tersebut."}
+ ]
+};
+
+
+ORDER_BANK.sd.push(
+ {words:["هَذَا","بَيْتٌ"],meaning:"Ini sebuah rumah."},
+ {words:["هَذِهِ","أُمِّي"],meaning:"Ini ibu saya."},
+ {words:["الْوَلَدُ","يَلْعَبُ"],meaning:"Anak laki-laki itu bermain."},
+ {words:["الْبِنْتُ","تَقْرَأُ"],meaning:"Anak perempuan itu membaca."},
+ {words:["عِنْدِي","قَلَمٌ"],meaning:"Saya mempunyai sebuah pena."},
+ {words:["الْكِتَابُ","عَلَى","الطَّاوِلَةِ"],meaning:"Buku itu berada di atas meja."},
+ {words:["أَبِي","يَعْمَلُ"],meaning:"Ayah saya bekerja."},
+ {words:["أَنَا","أَشْرَبُ","الْمَاءَ"],meaning:"Saya minum air."},
+ {words:["الْقِطَّةُ","صَغِيرَةٌ"],meaning:"Kucing itu kecil."},
+ {words:["أُحِبُّ","أُمِّي"],meaning:"Saya menyayangi ibu saya."},
+ {words:["الْجَوُّ","جَمِيلٌ"],meaning:"Cuacanya bagus."},
+ {words:["هَذَا","لَوْنٌ","أَخْضَرُ"],meaning:"Ini warna hijau."}
+);
+ORDER_BANK.smp.push(
+ {words:["تَذْهَبُ","فَاطِمَةُ","إِلَى","الْمَدْرَسَةِ"],meaning:"Fatimah pergi ke sekolah."},
+ {words:["يَشْرَبُ","الطَّالِبُ","الْمَاءَ"],meaning:"Siswa itu minum air."},
+ {words:["أَقْرَأُ","كِتَابًا","جَدِيدًا"],meaning:"Saya membaca buku baru."},
+ {words:["نَلْعَبُ","كُرَةَ","الْقَدَمِ"],meaning:"Kami bermain sepak bola."},
+ {words:["أُسَاعِدُ","أُمِّي","فِي","الْبَيْتِ"],meaning:"Saya membantu ibu di rumah."},
+ {words:["يَفْتَحُ","الْمُعَلِّمُ","النَّافِذَةَ"],meaning:"Guru itu membuka jendela."},
+ {words:["أَذْهَبُ","إِلَى","السُّوقِ","مَعَ","أَبِي"],meaning:"Saya pergi ke pasar bersama ayah."},
+ {words:["الطَّقْسُ","حَارٌّ","الْيَوْمَ"],meaning:"Cuaca hari ini panas."},
+ {words:["هَلْ","تَفْهَمُ","السُّؤَالَ؟"],meaning:"Apakah kamu memahami pertanyaan?" },
+ {words:["أُرِيدُ","أَنْ","أَتَعَلَّمَ","الْعَرَبِيَّةَ"],meaning:"Saya ingin belajar Bahasa Arab."},
+ {words:["يَجْلِسُ","الطُّلَّابُ","فِي","الْفَصْلِ"],meaning:"Para siswa duduk di kelas."},
+ {words:["تَكْتُبُ","مَرْيَمُ","الرِّسَالَةَ"],meaning:"Maryam menulis surat."}
+);
+ORDER_BANK.sma.push(
+ {words:["يُسَاعِدُ","التَّخْطِيطُ","عَلَى","تَنْظِيمِ","الْوَقْتِ"],meaning:"Perencanaan membantu mengatur waktu."},
+ {words:["يَجِبُ","احْتِرَامُ","آرَاءِ","الْآخَرِينَ"],meaning:"Pendapat orang lain harus dihormati."},
+ {words:["تُسَاهِمُ","الْقِرَاءَةُ","فِي","تَوْسِيعِ","الْمَعْرِفَةِ"],meaning:"Membaca berkontribusi pada perluasan pengetahuan."},
+ {words:["يَحْتَاجُ","الطَّالِبُ","إِلَى","مُمَارَسَةٍ","مُسْتَمِرَّةٍ"],meaning:"Siswa membutuhkan latihan berkelanjutan."},
+ {words:["يُعَدُّ","التَّعَاوُنُ","عُنْصُرًا","مُهِمًّا"],meaning:"Kerja sama dianggap sebagai unsur penting."},
+ {words:["تَتَغَيَّرُ","الْمُجْتَمَعَاتُ","بِمُرُورِ","الزَّمَنِ"],meaning:"Masyarakat berubah seiring berjalannya waktu."},
+ {words:["يَنْبَغِي","لَنَا","أَنْ","نَتَحَقَّقَ","مِنَ","الْمَصَادِرِ"],meaning:"Kita sebaiknya memverifikasi sumber."},
+ {words:["يَتَنَاوَلُ","النَّصُّ","قَضِيَّةً","اجْتِمَاعِيَّةً"],meaning:"Teks itu membahas persoalan sosial."},
+ {words:["تُسَاعِدُ","الْأَمْثِلَةُ","عَلَى","فَهْمِ","النَّظَرِيَّةِ"],meaning:"Contoh membantu memahami teori."},
+ {words:["يَجِبُ","تَحْلِيلُ","النَّتَائِجِ","بِدِقَّةٍ"],meaning:"Hasil harus dianalisis dengan cermat."},
+ {words:["يَسْتَطِيعُ","الطُّلَّابُ","تَطْوِيرَ","مَهَارَاتِهِمْ"],meaning:"Para siswa dapat mengembangkan keterampilan mereka."},
+ {words:["يُؤَثِّرُ","السِّيَاقُ","فِي","مَعْنَى","الْكَلِمَةِ"],meaning:"Konteks memengaruhi makna kata."}
+);
+ORDER_BANK.umum.push(
+ {words:["يَنْبَغِي","تَحْدِيدُ","الْأَهْدَافِ","قَبْلَ","الْبَدْءِ"],meaning:"Tujuan sebaiknya ditentukan sebelum memulai."},
+ {words:["يَجِبُ","تَقْيِيمُ","الْمَصَادِرِ","بِشَكْلٍ","نَقْدِيٍّ"],meaning:"Sumber harus dievaluasi secara kritis."},
+ {words:["تُسَاعِدُ","الْبَيَانَاتُ","الدَّقِيقَةُ","عَلَى","اتِّخَاذِ","الْقَرَارِ"],meaning:"Data yang akurat membantu pengambilan keputusan."},
+ {words:["يَحْتَاجُ","هَذَا","الْمَوْضُوعُ","إِلَى","مَزِيدٍ","مِنَ","الدِّرَاسَةِ"],meaning:"Topik ini membutuhkan kajian lebih lanjut."},
+ {words:["يَنْبَغِي","مُرَاعَاةُ","الِاخْتِلَافَاتِ","الثَّقَافِيَّةِ"],meaning:"Perbedaan budaya sebaiknya diperhatikan."},
+ {words:["يُسَاهِمُ","التَّوَاصُلُ","الْفَعَّالُ","فِي","حَلِّ","الْمُشْكِلَاتِ"],meaning:"Komunikasi efektif berkontribusi pada pemecahan masalah."},
+ {words:["تَعْتَمِدُ","جَوْدَةُ","النَّتَائِجِ","عَلَى","دِقَّةِ","الْبَيَانَاتِ"],meaning:"Kualitas hasil bergantung pada ketepatan data."},
+ {words:["يَجِبُ","تَوْضِيحُ","الْمَفَاهِيمِ","قَبْلَ","مُنَاقَشَتِهَا"],meaning:"Konsep harus dijelaskan sebelum didiskusikan."},
+ {words:["يُسَاعِدُ","التَّفْكِيرُ","النَّقْدِيُّ","عَلَى","تَقْيِيمِ","الْحُجَجِ"],meaning:"Berpikir kritis membantu mengevaluasi argumen."},
+ {words:["تَتَطَلَّبُ","الْمَشْرُوعَاتُ","النَّاجِحَةُ","تَخْطِيطًا","جَيِّدًا"],meaning:"Proyek yang berhasil membutuhkan perencanaan yang baik."},
+ {words:["يَنْبَغِي","تَوْثِيقُ","الْمَعْلُومَاتِ","بِمَصَادِرَ","مَوْثُوقَةٍ"],meaning:"Informasi sebaiknya didokumentasikan dengan sumber tepercaya."},
+ {words:["يُسَاعِدُ","التَّعَلُّمُ","الْمُسْتَمِرُّ","عَلَى","تَطْوِيرِ","الْمَهَارَاتِ"],meaning:"Pembelajaran berkelanjutan membantu mengembangkan keterampilan."}
+);
+
+const LEVEL_NAMES={sd:"SD / MI",smp:"SMP / MTs",sma:"SMA / MA",umum:"Mahasiswa & umum"};
+const GAME_NAMES={match:"🧩 Match the Words",meaning:"💡 Tebak Arti",order:"🔤 Susun Kata",quiz:"⚡ Kuis Kilat"};
+let level="sd",game="match",items=[],idx=0,points=Number(localStorage.getItem("arabplay_points")||0),streak=0,correctTotal=Number(localStorage.getItem("arabplay_correct")||0),attempts=Number(localStorage.getItem("arabplay_attempts")||0),answered=false,selectedAr=null,matched=new Set(),orderChosen=[],currentOrder=[],quizScore=0,orderDeck=[],orderIndex=0,sessionCorrect=0,sessionWrong=0,sessionAttempts=0,sessionPoints=0,sessionReview=[];
+const $=id=>document.getElementById(id);
+function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+function sample(){return shuffle(BANK[level]).slice(0,Math.min(5,BANK[level].length))}
+function setScore(){
+ $("points").textContent=points;$("streak").textContent=streak;
+ $("progressText").textContent=Math.min(correctTotal,10)+" dari 10 soal";
+ $("progressFill").style.width=Math.min(correctTotal*10,100)+"%";
+ localStorage.setItem("arabplay_points",points);localStorage.setItem("arabplay_correct",correctTotal);localStorage.setItem("arabplay_attempts",attempts);
+ const tiers=[
+  {name:"Pemula",min:0,max:50,desc:"Mulai petualangan Bahasa Arabmu."},
+  {name:"Penjelajah Kosakata",min:50,max:150,desc:"Kamu mulai menguasai lebih banyak kosakata."},
+  {name:"Jago Bahasa Arab",min:150,max:Infinity,desc:"Hebat! Terus latih kemampuan Bahasa Arabmu."}
+ ];
+ const tier=points>=150?tiers[2]:points>=50?tiers[1]:tiers[0];
+ $("levelName").textContent=tier.name;$("levelDescription").textContent=tier.desc;$("levelPoints").textContent=points+" poin";
+ if(tier.max===Infinity){$("levelMeterFill").style.width="100%";$("nextLevelText").textContent="Level tertinggi tercapai";}
+ else{$("levelMeterFill").style.width=Math.min(100,((points-tier.min)/(tier.max-tier.min))*100)+"%";$("nextLevelText").textContent=(tier.max-points)+" poin ke level berikutnya";}
+ const accuracy=attempts?Math.round(correctTotal/attempts*100):0;
+ const achievements=[
+  {icon:"🌱",title:"Langkah Pertama",desc:"Jawab 1 soal dengan benar",unlocked:correctTotal>=1},
+  {icon:"📚",title:"Penjelajah",desc:"Kumpulkan 10 jawaban benar",unlocked:correctTotal>=10},
+  {icon:"🏅",title:"Rajin Berlatih",desc:"Kumpulkan 25 jawaban benar",unlocked:correctTotal>=25},
+  {icon:"🎯",title:"Tepat Sasaran",desc:"Akurasi minimal 80% dari 10 percobaan",unlocked:attempts>=10&&accuracy>=80},
+  {icon:"🔥",title:"Lima Beruntun",desc:"Jawab 5 soal benar berturut-turut",unlocked:streak>=5},
+  {icon:"⭐",title:"Jago Bahasa Arab",desc:"Raih 150 poin",unlocked:points>=150}
+ ];
+ $("achievementGrid").innerHTML=achievements.map(a=>`<div class="achievement ${a.unlocked?"unlocked":""}"><span class="achievement-icon">${a.unlocked?a.icon:"🔒"}</span><div><div class="achievement-title">${a.title}</div><div class="achievement-desc">${a.unlocked?"Pencapaian terbuka":a.desc}</div></div></div>`).join("");
+}
+function resetSession(){
+ sessionCorrect=0;sessionWrong=0;sessionAttempts=0;sessionPoints=0;sessionReview=[];readingIndex=0;readingQuestionState={};
+ $("reportPanel").classList.add("hidden");
+}
+function rememberForReview(item){
+ if(!item)return;
+ const ar=item.ar||item.words?.join(" ")||"";
+ const meaning=item.id||item.meaning||"";
+ const key=ar+"|"+meaning;
+ if(ar&&!sessionReview.some(x=>x.key===key))sessionReview.push({key,ar,meaning});
+}
+function showSessionReport(completed=false){
+ const accuracy=sessionAttempts?Math.round(sessionCorrect/sessionAttempts*100):0;
+ $("reportPanel").classList.remove("hidden");
+ $("reportSubtitle").textContent=(completed?"Sesi permainan selesai. ":"Ringkasan sementara. ")+`Jenjang ${LEVEL_NAMES[level]}, game ${GAME_NAMES[game].replace(/^\\S+\\s/,"")}.`;
+ $("reportCorrect").textContent=sessionCorrect;
+ $("reportWrong").textContent=sessionWrong;
+ $("reportAccuracy").textContent=accuracy+"%";
+ $("reportPoints").textContent=sessionPoints;
+ $("reviewDescription").textContent=sessionReview.length?"Ulangi kata atau kalimat berikut pada sesi berikutnya.":"Bagus! Belum ada kosakata yang perlu diulang dari jawaban salah.";
+ $("reviewList").innerHTML=sessionReview.length?sessionReview.map(x=>`<div class="review-chip"><div class="arabic" style="font-size:1.35rem">${x.ar}</div><div>${x.meaning}</div></div>`).join(""):'<span style="color:var(--muted)">Belum ada item untuk diulang.</span>';
+ $("reportPanel").scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+function initGame(){items=sample();idx=0;answered=false;selectedAr=null;matched=new Set();orderChosen=[];quizScore=0;orderDeck=shuffle(ORDER_BANK[level]);orderIndex=0;renderGame()}
+
+function stopArabicAudio(){
+ if("speechSynthesis" in window) window.speechSynthesis.cancel();
+}
+function speakArabic(text,button){
+ if(!("speechSynthesis" in window)){showFeedback("Browser ini belum mendukung fitur suara. Coba gunakan Chrome atau Edge.",false);return;}
+ stopArabicAudio();
+ const utterance=new SpeechSynthesisUtterance(text);
+ utterance.lang="ar-SA";
+ utterance.rate=0.78;
+ utterance.pitch=1;
+ if(button){button.disabled=true;button.textContent="🔊 Memutar...";}
+ utterance.onend=()=>{if(button){button.disabled=false;button.textContent="🔊 Dengarkan pelafalan";}};
+ utterance.onerror=()=>{if(button){button.disabled=false;button.textContent="🔊 Dengarkan pelafalan";}showFeedback("Suara Arab tidak tersedia di perangkat ini. Periksa dukungan suara pada pengaturan sistem.",false);};
+ window.speechSynthesis.speak(utterance);
+}
+function audioButton(text,label="Dengarkan pelafalan"){
+ return `<button class="audio-btn" type="button" data-audio="${encodeURIComponent(text)}">🔊 ${label}</button>`;
+}
+function wireAudioButtons(root=$("gameContent")){
+ root.querySelectorAll("[data-audio]").forEach(button=>button.onclick=()=>speakArabic(decodeURIComponent(button.dataset.audio),button));
+}
+
+
+const LEVEL_FOCUS={
+ sd:"Fokus: kata benda, angka, warna, dan keluarga. Perhatikan bentuk kata, harakat, dan arti dasar.",
+ smp:"Fokus: kata kerja dan kalimat sederhana. Perhatikan siapa yang melakukan tindakan dan kapan atau di mana tindakan terjadi.",
+ sma:"Fokus: struktur kalimat, kata penghubung, dan pemahaman bacaan. Gunakan konteks paragraf untuk menentukan makna.",
+ umum:"Fokus: percakapan sehari-hari, ungkapan formal, dan teks yang lebih kompleks. Perhatikan tujuan, hubungan antargagasan, dan konteks penggunaan."
+};
+const READING_BANK={
+ sma:[
+  {text:"يَذْهَبُ أَحْمَدُ إِلَى الْمَكْتَبَةِ بَعْدَ الدَّرْسِ. يَقْرَأُ كِتَابًا عَنِ الْبِيئَةِ، ثُمَّ يُلَخِّصُ الْأَفْكَارَ الرَّئِيسَةَ فِي دَفْتَرِهِ.",
+   questions:[
+    {q:"Ke mana Ahmad pergi setelah pelajaran?",options:["Ke perpustakaan","Ke pasar","Ke rumah sakit"],answer:0,explain:"Teks menyebutkan إِلَى الْمَكْتَبَةِ, artinya ke perpustakaan."},
+    {q:"Apa yang dilakukan Ahmad setelah membaca?",options:["Menulis surat","Merangkum gagasan utama","Bermain sepak bola"],answer:1,explain:"يُلَخِّصُ الْأَفْكَارَ الرَّئِيسَةَ berarti merangkum gagasan utama."}
+   ]},
+  {text:"تُسَاعِدُ الْقِرَاءَةُ الْمُنْتَظَمَةُ عَلَى تَوْسِيعِ الْمَعْرِفَةِ. وَلِذَلِكَ، يَخْتَارُ الطُّلَّابُ كُتُبًا مُنَاسِبَةً لِمُسْتَوَاهُمْ، وَيُدَوِّنُونَ الْمُفْرَدَاتِ الْجَدِيدَةَ فِي دَفَاتِرِهِمْ.",
+   questions:[
+    {q:"Apa manfaat membaca secara teratur menurut teks?",options:["Memperluas pengetahuan","Mengurangi waktu belajar","Mengganti kegiatan menulis"],answer:0,explain:"تَوْسِيعِ الْمَعْرِفَةِ berarti memperluas pengetahuan."},
+    {q:"Apa yang dicatat siswa di buku catatan?",options:["Jadwal pertandingan","Kosakata baru","Daftar belanja"],answer:1,explain:"الْمُفْرَدَاتِ الْجَدِيدَةَ berarti kosakata baru."}
+   ]}
+ ],
+ umum:[
+  {text:"تَعْتَمِدُ جَوْدَةُ الْبَحْثِ عَلَى وُضُوحِ السُّؤَالِ وَدِقَّةِ الْبَيَانَاتِ. لِذَلِكَ، يَجْمَعُ الْبَاحِثُ الْمَعْلُومَاتِ مِنْ مَصَادِرَ مَوْثُوقَةٍ، ثُمَّ يُحَلِّلُهَا قَبْلَ أَنْ يَسْتَخْلِصَ النَّتَائِجَ.",
+   questions:[
+    {q:"Dua hal apa yang mendukung kualitas penelitian?",options:["Pertanyaan yang jelas dan data yang akurat","Teks yang panjang dan istilah sulit","Banyaknya halaman dan gambar"],answer:0,explain:"وُضُوحِ السُّؤَالِ وَدِقَّةِ الْبَيَانَاتِ berarti kejelasan pertanyaan dan ketepatan data."},
+    {q:"Apa yang dilakukan peneliti sebelum menarik kesimpulan?",options:["Mengabaikan sumber","Menganalisis informasi","Mengubah pertanyaan tanpa alasan"],answer:1,explain:"يُحَلِّلُهَا قَبْلَ أَنْ يَسْتَخْلِصَ النَّتَائِجَ berarti menganalisisnya sebelum menarik hasil."}
+   ]},
+  {text:"عِنْدَمَا يَتَحَدَّثُ الْمَرْءُ مَعَ زَمِيلِهِ، مِنَ الْأَفْضَلِ أَنْ يَسْتَمِعَ جَيِّدًا، وَأَنْ يَطْرَحَ أَسْئِلَةً وَاضِحَةً. فَالتَّوَاصُلُ الْفَعَّالُ يَحْتَاجُ إِلَى الِاحْتِرَامِ وَفَهْمِ السِّيَاقِ.",
+   questions:[
+    {q:"Apa yang sebaiknya dilakukan saat berbicara dengan rekan?",options:["Mendengarkan dengan baik dan bertanya jelas","Memotong pembicaraan","Mengabaikan konteks"],answer:0,explain:"يَسْتَمِعَ جَيِّدًا وَيَطْرَحَ أَسْئِلَةً وَاضِحَةً menjelaskan cara berkomunikasi yang baik."},
+    {q:"Menurut teks, komunikasi efektif memerlukan apa?",options:["Kecepatan berbicara saja","Rasa hormat dan pemahaman konteks","Istilah yang rumit"],answer:1,explain:"الِاحْتِرَامِ وَفَهْمِ السِّيَاقِ berarti rasa hormat dan pemahaman konteks."}
+   ]}
+ ]
+};
+let readingIndex=0,readingQuestionState={};
+function renderReading(){
+ const panel=$("readingPanel");
+ if(level!=="sma"&&level!=="umum"){panel.classList.add("hidden");return;}
+ panel.classList.remove("hidden");
+ const passages=READING_BANK[level];readingIndex=readingIndex%passages.length;
+ const passage=passages[readingIndex];
+ $("readingIntro").textContent=level==="sma"?"Baca teks berharakat, lalu gunakan informasi dan hubungan antarkalimat untuk menjawab.":"Bacalah teks formal berikut. Perhatikan gagasan utama, alasan, dan urutan informasi.";
+ $("readingText").textContent=passage.text;
+ $("readingQuestions").innerHTML=passage.questions.map((q,i)=>`<div class="reading-question"><strong>${i+1}. ${q.q}</strong><div class="reading-options">${q.options.map((o,j)=>`<button class="reading-option" data-rq="${i}" data-ro="${j}">${o}</button>`).join("")}</div><div class="reading-feedback" id="readingFeedback${i}"></div></div>`).join("");
+ $("readingQuestions").querySelectorAll(".reading-option").forEach(btn=>btn.onclick=()=>{
+  const qi=Number(btn.dataset.rq),oi=Number(btn.dataset.ro),key=readingIndex+"-"+qi;
+  if(readingQuestionState[key])return;
+  readingQuestionState[key]=true;
+  const q=passage.questions[qi],ok=oi===q.answer;
+  sessionAttempts++;attempts++;
+  if(ok){sessionCorrect++;correctTotal++;sessionPoints+=10;points+=10;streak++;$("readingFeedback"+qi).textContent="Benar! +10 poin. "+q.explain;btn.classList.add("correct");}
+  else{sessionWrong++;streak=0;rememberForReview({ar:passage.text,meaning:q.q});$("readingFeedback"+qi).textContent="Belum tepat. "+q.explain;btn.classList.add("wrong");$("readingQuestions").querySelectorAll(`[data-rq="${qi}"]`).forEach(x=>{if(Number(x.dataset.ro)===q.answer)x.classList.add("correct")});}
+  $("readingQuestions").querySelectorAll(`[data-rq="${qi}"]`).forEach(x=>x.disabled=true);
+  setScore();
+ });
+ $("readingNextBtn").onclick=()=>{
+  const allDone=passage.questions.every((q,i)=>readingQuestionState[readingIndex+"-"+i]);
+  if(!allDone){$("readingIntro").textContent="Jawab semua pertanyaan pada bacaan ini terlebih dahulu.";return;}
+  readingIndex++;
+  if(readingIndex>=passages.length){showSessionReport(true);readingIndex=0;return;}
+  renderReading();
+ };
+}
+
+function renderGame(){
+ $("gameName").textContent=GAME_NAMES[game];$("levelMeta").textContent="Jenjang: "+LEVEL_NAMES[level];
+ $("gameTitle").textContent=({match:"Cocokkan pasangan kata",meaning:"Apa arti kata ini?",order:"Susun kata menjadi kalimat",quiz:"Kuis kilat"})[game];
+ $("gameSub").textContent=({match:"Pilih kata Arab, lalu pilih arti yang sesuai.",meaning:"Pilih terjemahan yang paling tepat.",order:"Ketuk potongan kata sesuai urutan kalimat yang benar.",quiz:"Jawab pertanyaan. Setiap jawaban benar bernilai 10 poin."})[game];$("learningFocus").textContent=LEVEL_FOCUS[level];renderReading();
+ if(game==="match")renderMatch();else if(game==="meaning")renderMeaning();else if(game==="order")renderOrder();else renderQuiz();
+ setScore();
+}
+function reward(ok,explanation,item=null){
+ answered=true;attempts++;sessionAttempts++;const box=$("feedback");
+ if(ok){points+=10;sessionPoints+=10;sessionCorrect++;streak++;correctTotal++;box.className="feedback good";box.textContent="Benar! +10 poin. "+(explanation||"Teruskan, kamu hebat.");}
+ else{sessionWrong++;streak=0;rememberForReview(item);box.className="feedback bad";box.textContent="Belum tepat. "+(explanation||"Coba ingat kembali arti katanya.");}
+ setScore();document.querySelectorAll("#gameContent .choice").forEach(b=>b.disabled=true);
+ const next=$("nextBtn");if(next)next.textContent="Soal berikutnya →";
+}
+function footerControls(){return `<div id="feedback" class="feedback hidden"></div><div class="actions"><button class="secondary" id="hintBtn">Petunjuk</button><button class="primary-small" id="nextBtn">Soal berikutnya →</button></div>`}
+function showFeedback(text,good=false){const f=$("feedback");f.className="feedback "+(good?"good":"bad");f.textContent=text}
+function nextRound(){
+ if(game==="match"){showSessionReport(true);return}
+ if(game==="order"&&orderIndex>=4){showSessionReport(true);return}
+ if(idx>=items.length-1){showSessionReport(true);return}
+ idx++;answered=false;orderChosen=[];renderGame();
+}
+function renderMatch(){
+ const pool=shuffle(items);let html=`<div class="game-meta"><span>Pasangan cocok: <b id="matchCount">0/${pool.length}</b></span><span>Pilih kiri lalu kanan</span></div><div class="match-grid"><div class="match-col" id="arabCol">${pool.map((x,i)=>`<div><button class="match-option" data-ar="${i}"><span class="arabic" style="font-size:1.55rem">${x.ar}</span></button>${audioButton(x.ar,"Dengarkan")}</div>`).join("")}</div><div class="match-col" id="idCol">${shuffle(pool).map(x=>`<button class="match-option" data-id="${pool.indexOf(x)}">${x.id}</button>`).join("")}</div></div>${footerControls()}`;
+ $("gameContent").innerHTML=html;
+ $("arabCol").querySelectorAll(".match-option").forEach(b=>b.onclick=()=>{if(matched.has(Number(b.dataset.ar)))return;selectedAr=Number(b.dataset.ar);$("arabCol").querySelectorAll(".match-option").forEach(z=>z.classList.toggle("selected",z===b));});wireAudioButtons();
+ $("idCol").querySelectorAll("button").forEach(b=>b.onclick=()=>{if(selectedAr===null||matched.has(Number(b.dataset.id)))return;const a=selectedAr,d=Number(b.dataset.id);attempts++;sessionAttempts++;if(a===d){sessionCorrect++;sessionPoints+=10;matched.add(a);$("arabCol").querySelector(`[data-ar="${a}"]`).classList.add("matched");b.classList.add("matched");points+=10;correctTotal++;streak++;$("matchCount").textContent=matched.size+"/"+pool.length;showFeedback("Pasangan benar! +10 poin.",true);setScore();selectedAr=null;$("arabCol").querySelectorAll("button").forEach(z=>z.classList.remove("selected"));if(matched.size===pool.length){showFeedback("Hebat! Semua pasangan berhasil dicocokkan. + bonus 10 poin.",true);points+=10;sessionPoints+=10;setScore();showSessionReport(true);}}else{sessionWrong++;streak=0;rememberForReview(pool[a]);showFeedback("Belum cocok. Coba pasangkan kembali.",false);setScore();}});
+ $("hintBtn").onclick=()=>showFeedback("Petunjuk: perhatikan harakat dan bentuk kata Arab.",true);
+ $("nextBtn").onclick=()=>initGame();
+}
+function renderMeaning(){
+ const x=items[idx%items.length],opts=shuffle([x,...shuffle(BANK[level].filter(z=>z!==x)).slice(0,3)]);
+ $("gameContent").innerHTML=`<div class="game-meta"><span>Soal ${idx+1} dari ${items.length}</span><span>+10 poin untuk jawaban benar</span></div><div class="prompt"><div class="arabic">${x.ar}</div>${audioButton(x.ar)}<div style="color:var(--muted);font-size:.9rem">Pilih arti yang tepat</div></div><div class="choices">${opts.map(o=>`<button class="choice" data-answer="${BANK[level].indexOf(o)}">${o.id}</button>`).join("")}</div>${footerControls()}`;
+ wireAudioButtons();$("gameContent").querySelectorAll(".choice").forEach(b=>b.onclick=()=>{if(answered)return;const ok=Number(b.dataset.answer)===BANK[level].indexOf(x);b.classList.add(ok?"correct":"wrong");if(!ok)$("gameContent").querySelectorAll(".choice").forEach(z=>{if(Number(z.dataset.answer)===BANK[level].indexOf(x))z.classList.add("correct")});reward(ok,`"${x.ar}" berarti "${x.id}".`,x)});
+ $("hintBtn").onclick=()=>showFeedback("Baca kata Arab dari kanan ke kiri, lalu perhatikan harakatnya.",true);
+ $("nextBtn").onclick=nextRound;
+}
+function renderOrder(){
+ const question=orderDeck[orderIndex%orderDeck.length];
+ const phrase=question.words;
+ const translation=question.meaning;
+ const scrambled=shuffle(phrase);
+ orderChosen=[];
+ currentOrder=phrase;
+ $("gameContent").innerHTML=`<div class="game-meta"><span>Susun kata · Soal ${orderIndex+1} dari ${orderDeck.length}</span><span>Arti: ${translation}</span></div><div class="prompt"><div class="arabic" style="font-size:1.6rem">سَاعِدْ فِي تَرْتِيبِ الْكَلِمَاتِ</div><div class="translation">${translation}</div></div><div class="answer-line" id="answerLine"><span style="color:#7a9485">Ketuk kata di bawah untuk menyusun</span></div><div class="word-bank" id="wordBank">${scrambled.map((w,i)=>`<button class="word-chip" data-word="${i}">${w}</button>`).join("")}</div>${footerControls()}`;
+ $("gameContent").querySelectorAll(".word-chip").forEach(b=>b.onclick=()=>{if(answered||b.disabled)return;orderChosen.push({word:b.textContent,button:b});b.disabled=true;refreshLine()});
+ function refreshLine(){
+  const line=$("answerLine");line.innerHTML="";
+  if(!orderChosen.length){line.innerHTML='<span style="color:#7a9485">Ketuk kata di bawah untuk menyusun</span>';return}
+  orderChosen.forEach((o,i)=>{const c=document.createElement("button");c.className="answer-chip";c.textContent=o.word;c.title="Ketuk untuk menghapus";c.onclick=()=>{if(answered)return;o.button.disabled=false;orderChosen.splice(i,1);refreshLine()};line.appendChild(c)})
+ }
+ $("hintBtn").onclick=()=>showFeedback("Susun kata sesuai arti kalimat. Perhatikan urutan subjek, kata kerja, dan keterangan.",true);
+ $("nextBtn").onclick=()=>{
+  if(!answered){
+   const attempt=orderChosen.map(o=>o.word);
+   const ok=attempt.length===phrase.length&&attempt.every((w,i)=>w===phrase[i]);
+   reward(ok,`Susunan yang benar: ${phrase.join(" ")}.`,{words:phrase,meaning:translation});
+   if(!ok)return;
+   return;
+  }
+  if(orderIndex>=4){showSessionReport(true);return;}
+  orderIndex++;
+  if(orderIndex>=orderDeck.length){orderDeck=shuffle(ORDER_BANK[level]);orderIndex=0;}
+  answered=false;renderOrder();setScore();
+ };
+}
+function renderQuiz(){
+ const x=items[idx%items.length],opts=shuffle([x,...shuffle(BANK[level].filter(z=>z!==x)).slice(0,3)]);
+ $("gameContent").innerHTML=`<div class="game-meta"><span class="quiz-count">Pertanyaan ${idx+1} dari ${items.length}</span><span>Skor ronde: ${quizScore}</span></div><div class="prompt"><div style="font-weight:800;margin-bottom:6px">Apa arti dari kata berikut?</div><div class="arabic">${x.ar}</div>${audioButton(x.ar)}</div><div class="choices">${opts.map(o=>`<button class="choice" data-answer="${BANK[level].indexOf(o)}">${o.id}</button>`).join("")}</div>${footerControls()}`;
+ wireAudioButtons();$("gameContent").querySelectorAll(".choice").forEach(b=>b.onclick=()=>{if(answered)return;const ok=Number(b.dataset.answer)===BANK[level].indexOf(x);b.classList.add(ok?"correct":"wrong");if(!ok)$("gameContent").querySelectorAll(".choice").forEach(z=>{if(Number(z.dataset.answer)===BANK[level].indexOf(x))z.classList.add("correct")});if(ok)quizScore+=10;reward(ok,`"${x.ar}" berarti "${x.id}".`,x)});
+ $("hintBtn").onclick=()=>showFeedback("Pikirkan konteks dan makna kata, bukan hanya bentuk tulisannya.",true);
+ $("nextBtn").onclick=()=>{if(!answered){showFeedback("Pilih satu jawaban terlebih dahulu.",false);return}nextRound()};
+}
+document.querySelectorAll("[data-level]").forEach(b=>b.onclick=()=>{level=b.dataset.level;document.querySelectorAll("[data-level]").forEach(x=>x.classList.toggle("active",x===b));$("levelLabel").textContent=LEVEL_NAMES[level];resetSession();initGame()});
+document.querySelectorAll("[data-game]").forEach(b=>b.onclick=()=>{game=b.dataset.game;document.querySelectorAll("[data-game]").forEach(x=>x.classList.toggle("active",x===b));resetSession();initGame();$("gameArea").scrollIntoView({behavior:"smooth",block:"start"})});
+$("startBtn").onclick=()=>$("levels").scrollIntoView({behavior:"smooth",block:"start"});
+$("resetBtn").onclick=()=>{if(confirm("Reset poin dan progres belajar?")){points=0;streak=0;correctTotal=0;attempts=0;localStorage.removeItem("arabplay_points");localStorage.removeItem("arabplay_correct");localStorage.removeItem("arabplay_attempts");setScore();initGame()}};
+$("playAgainBtn").onclick=()=>{resetSession();initGame();$("gameArea").scrollIntoView({behavior:"smooth",block:"start"})};
+initGame();
+</script>
+</body>
+</html>
